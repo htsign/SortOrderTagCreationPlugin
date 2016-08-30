@@ -69,26 +69,21 @@ namespace MusicBeePlugin
         {
             await Task.Factory.StartNew(() =>
             {
-                var tasks = new List<Task>();
-
                 foreach (string path in songs)
                 {
-                    Task task = AddSortOrderTagToFileAsync(path);
-                    task.ContinueWith(_ => ++Completed);
-                    tasks.Add(task);
+                    AddSortOrderTagToFileAsync(path)
+                        .ContinueWith(_ => ++Completed)
+                        .Wait(tokenSource.Token);
                 }
-                Task.WaitAll(tasks.ToArray(), tokenSource.Token);
             }, tokenSource.Token)
+
             .ContinueWith(_ =>
-            {
-                MessageBox.Show("タグ付けが完了しました。");
-                Close();
-            }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                MessageBox.Show("タグ付けが完了しました。"),
+                TaskContinuationOptions.OnlyOnRanToCompletion)
             .ContinueWith(_ =>
-            {
-                Close();
-                MessageBox.Show("ユーザーの操作により中断されました。");
-            }, TaskContinuationOptions.OnlyOnCanceled);
+                MessageBox.Show("ユーザーの操作により中断されました。"),
+                TaskContinuationOptions.OnlyOnCanceled)
+            .ContinueWith(_ => Close());
         }
 
         public async Task SetRemainingTimeAsync(TimeSpan remaining)
@@ -181,11 +176,7 @@ namespace MusicBeePlugin
             isOpened = true;
             sw.Start();
 
-            try
-            {
-                await TranslateSongsAsync();
-            }
-            catch (TaskCanceledException) { }
+            await TranslateSongsAsync();
         }
 
         private void Remaining_FormClosed(object sender, FormClosedEventArgs e)

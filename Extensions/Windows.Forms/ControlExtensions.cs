@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MusicBeePlugin.Extensions
+namespace MusicBeePlugin.Extensions.Windows.Forms
 {
     public static class ControlExtension
     {

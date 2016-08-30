@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
-using MusicBeePlugin.Extensions;
 
 namespace MusicBeePlugin
 {
+    using Windows.Forms;
+
     public partial class Plugin
     {
         public const string ConfigName = "SortOrderTagCreationPluginSettings.xml";

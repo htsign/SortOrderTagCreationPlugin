@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace MusicBeePlugin
+namespace MusicBeePlugin.Windows.Forms
 {
     class ProgressBarEx : ProgressBar
     {

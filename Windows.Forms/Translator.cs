@@ -5,12 +5,12 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MusicBeePlugin.Extensions;
-using static MusicBeePlugin.Plugin;
 
-namespace MusicBeePlugin
+namespace MusicBeePlugin.Windows.Forms
 {
     using System.Threading;
+    using Extensions.Core;
+    using static Plugin;
 
     public partial class Translator : Form
     {

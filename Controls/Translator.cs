@@ -23,17 +23,6 @@ namespace MusicBeePlugin
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private TaskScheduler uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-        public Translator(MusicBeeApiInterface api, string[] songs)
-        {
-            InitializeComponent();
-
-            mbApiInterface = api;
-            this.songs = songs;
-
-            label_entireCount.Text = songs.Length.ToString();
-            progressBar_completed.Maximum = songs.Length;
-        }
-
         #region public properties
         private int completed = 0;
         public int Completed
@@ -44,6 +33,7 @@ namespace MusicBeePlugin
                 new Task(() =>
                 {
                     label_completedCount.Text = value.ToString();
+                    progressBar_completed.Value = value;
                     completed = value;
                 })
                 .RunSynchronously(uiScheduler);
@@ -54,6 +44,24 @@ namespace MusicBeePlugin
         public bool IsOpened => isOpened;
 
         public bool Terminated => tokenSource.IsCancellationRequested;
+        #endregion
+
+        #region constructors
+        public Translator(MusicBeeApiInterface api, string[] songs)
+        {
+            InitializeComponent();
+
+            mbApiInterface = api;
+            this.songs = songs;
+            tokenSource.Token.Register(() =>
+            {
+                startRemainingUpdating.Change(Timeout.Infinite, Timeout.Infinite);
+                startRemainingUpdating.Dispose();
+            });
+
+            label_entireCount.Text = songs.Length.ToString();
+            progressBar_completed.Maximum = songs.Length;
+        }
         #endregion
 
         #region public methods
@@ -69,13 +77,18 @@ namespace MusicBeePlugin
                     task.ContinueWith(_ => ++Completed);
                     tasks.Add(task);
                 }
-                Task.WaitAll(tasks.ToArray());
+                Task.WaitAll(tasks.ToArray(), tokenSource.Token);
             }, tokenSource.Token)
-            .ContinueWith(_ => MessageBox.Show("タグ付けが完了しました。"),
-                TaskContinuationOptions.OnlyOnRanToCompletion)
-            .ContinueWith(_ => MessageBox.Show("ユーザーの操作により中断されました。"),
-                TaskContinuationOptions.OnlyOnCanceled)
-            .ContinueWith(_ => Close());
+            .ContinueWith(_ =>
+            {
+                MessageBox.Show("タグ付けが完了しました。");
+                Close();
+            }, TaskContinuationOptions.OnlyOnRanToCompletion)
+            .ContinueWith(_ =>
+            {
+                Close();
+                MessageBox.Show("ユーザーの操作により中断されました。");
+            }, TaskContinuationOptions.OnlyOnCanceled);
         }
 
         public async Task SetRemainingTimeAsync(TimeSpan remaining)
@@ -85,7 +98,7 @@ namespace MusicBeePlugin
                 if (label_remainingTime.IsDisposed) return;
                 label_remainingTime.Text = remaining.ToString();
             },
-            tokenSource.Token, TaskCreationOptions.None, uiScheduler);
+            CancellationToken.None, TaskCreationOptions.None, uiScheduler);
         }
         #endregion
 
@@ -168,23 +181,16 @@ namespace MusicBeePlugin
             isOpened = true;
             sw.Start();
 
-            await TranslateSongsAsync();
+            try
+            {
+                await TranslateSongsAsync();
+            }
+            catch (TaskCanceledException) { }
         }
 
         private void Remaining_FormClosed(object sender, FormClosedEventArgs e)
         {
             tokenSource.Cancel(true);
-            startRemainingUpdating.Change(Timeout.Infinite, Timeout.Infinite);
-            startRemainingUpdating.Dispose();
-        }
-
-        private async void label_completedCount_TextChangedAsync(object sender, EventArgs e)
-        {
-            var label = (Label)sender;
-
-            await Task.Factory.StartNew(
-                () => progressBar_completed.Value = int.Parse(label.Text),
-                tokenSource.Token, TaskCreationOptions.None, uiScheduler);
         }
 
         private void button_terminate_Click(object sender, EventArgs e)

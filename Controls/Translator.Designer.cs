@@ -69,7 +69,6 @@
             this.label_completedCount.TabIndex = 0;
             this.label_completedCount.Text = "0";
             this.label_completedCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_completedCount.TextChanged += new System.EventHandler(this.label_completedCount_TextChangedAsync);
             // 
             // label_slash
             // 

@@ -136,7 +136,7 @@
             this.Name = "Remaining";
             this.Text = "進捗状況";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Remaining_FormClosed);
-            this.Load += new System.EventHandler(this.Remaining_LoadAsync);
+            this.Load += new System.EventHandler(this.Remaining_Load);
             this.Shown += new System.EventHandler(this.Remaining_ShownAsync);
             this.ResumeLayout(false);
             this.PerformLayout();

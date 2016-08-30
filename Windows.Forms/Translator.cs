@@ -69,36 +69,31 @@ namespace MusicBeePlugin.Windows.Forms
         {
             await Task.Factory.StartNew(() =>
             {
-                var tasks = new List<Task>();
-
                 foreach (string path in songs)
                 {
-                    Task task = AddSortOrderTagToFileAsync(path);
-                    task.ContinueWith(_ => ++Completed);
-                    tasks.Add(task);
+                    AddSortOrderTagToFileAsync(path)
+                        .ContinueWith(_ => ++Completed)
+                        .Wait(tokenSource.Token);
                 }
-                Task.WaitAll(tasks.ToArray(), tokenSource.Token);
             }, tokenSource.Token)
+
             .ContinueWith(_ =>
-            {
-                MessageBox.Show("タグ付けが完了しました。");
-                Close();
-            }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                MessageBox.Show("タグ付けが完了しました。"),
+                TaskContinuationOptions.OnlyOnRanToCompletion)
             .ContinueWith(_ =>
-            {
-                Close();
-                MessageBox.Show("ユーザーの操作により中断されました。");
-            }, TaskContinuationOptions.OnlyOnCanceled);
+                MessageBox.Show("ユーザーの操作により中断されました。"),
+                TaskContinuationOptions.OnlyOnCanceled)
+            .ContinueWith(_ => Close());
         }
 
-        public async Task SetRemainingTimeAsync(TimeSpan remaining)
+        public void SetRemainingTime(TimeSpan remaining)
         {
-            await Task.Factory.StartNew(() =>
+            new Task(() =>
             {
                 if (label_remainingTime.IsDisposed) return;
                 label_remainingTime.Text = remaining.ToString();
-            },
-            CancellationToken.None, TaskCreationOptions.None, uiScheduler);
+            })
+            .RunSynchronously(uiScheduler);
         }
         #endregion
 
@@ -159,33 +154,29 @@ namespace MusicBeePlugin.Windows.Forms
         #endregion
 
         #region event handlers
-        private async void Remaining_LoadAsync(object sender, EventArgs e)
+        private void Remaining_Load(object sender, EventArgs e)
         {
             Location = new Point(
                 Owner.Location.X + (Owner.Width  - Width)  / 2,
                 Owner.Location.Y + (Owner.Height - Height) / 2);
-            await SetRemainingTimeAsync(TimeSpan.FromSeconds(0));
+            SetRemainingTime(TimeSpan.FromSeconds(0));
         }
 
         private async void Remaining_ShownAsync(object sender, EventArgs e)
         {
-            startRemainingUpdating = new Timer(async _ =>
+            startRemainingUpdating = new Timer(_ =>
                 {
                     double parTime = sw.Elapsed.TotalSeconds / Completed;
                     int remainingTime = (int)(parTime * (songs.Length - Completed));
 
-                    await SetRemainingTimeAsync(TimeSpan.FromSeconds(remainingTime));
+                    SetRemainingTime(TimeSpan.FromSeconds(remainingTime));
                 },
                 null, 0, RemainingTimeUpdateInterval);
 
             isOpened = true;
             sw.Start();
 
-            try
-            {
-                await TranslateSongsAsync();
-            }
-            catch (TaskCanceledException) { }
+            await TranslateSongsAsync();
         }
 
         private void Remaining_FormClosed(object sender, FormClosedEventArgs e)

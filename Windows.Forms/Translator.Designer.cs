@@ -1,4 +1,4 @@
-﻿namespace MusicBeePlugin
+﻿namespace MusicBeePlugin.Windows.Forms
 {
     partial class Translator
     {

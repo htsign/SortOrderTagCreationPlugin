@@ -182,6 +182,23 @@ namespace MusicBeePlugin
         #endregion
 
         #region public methods
+        public bool WriteTag(SortCustomTag condition, string value)
+        {
+            if (!condition.Enabled) return false;
+
+            if (Config.Instance.DontOverwrite)
+            {
+                string newTagValue = this[condition.Name]; // ソート元のタグの取得
+                string oldTagValue = this[condition.SortTag.ToString()];
+
+                // ソート元のタグとの一致判定
+                // 一致しなかった場合はソートタグにも値が含まれていると見做して中断
+                if (newTagValue != oldTagValue) return false;
+            }
+            this[condition.Name] = value;
+            return true;
+        }
+
         public bool Commit() => mbApiInterface.Library_CommitTagsToFile(FullPath);
         #endregion
     }

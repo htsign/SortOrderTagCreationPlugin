@@ -93,16 +93,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Controls\ConfigureControl.cs">
+    <Compile Include="Windows.Forms\ConfigureControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ConfigureControl.Designer.cs">
+    <Compile Include="Windows.Forms\ConfigureControl.Designer.cs">
       <DependentUpon>ConfigureControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\ControlExtension.cs" />
-    <Compile Include="Extensions\MemberInfoExtension.cs" />
-    <Compile Include="Extensions\SongFileExtensions.cs" />
-    <Compile Include="ProgressBarEx.cs">
+    <Compile Include="Extensions\Windows.Forms\ControlExtensions.cs" />
+    <Compile Include="Extensions\Reflection\MemberInfoExtensions.cs" />
+    <Compile Include="Windows.Forms\ProgressBarEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RegexCharactors.cs" />
@@ -112,17 +111,17 @@
       <DependentUpon>SongFile.tt</DependentUpon>
     </Compile>
     <Compile Include="TextTranslation.cs" />
-    <Compile Include="Controls\Translator.cs">
+    <Compile Include="Windows.Forms\Translator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\Translator.Designer.cs">
+    <Compile Include="Windows.Forms\Translator.Designer.cs">
       <DependentUpon>Translator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Controls\WordKanaDictionary.cs">
+    <Compile Include="Extensions\Core\StringExtensions.cs" />
+    <Compile Include="Windows.Forms\WordKanaDictionary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\WordKanaDictionary.Designer.cs">
+    <Compile Include="Windows.Forms\WordKanaDictionary.Designer.cs">
       <DependentUpon>WordKanaDictionary.cs</DependentUpon>
     </Compile>
     <Compile Include="WebClientEx.cs">
@@ -167,13 +166,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\ConfigureControl.resx">
+    <EmbeddedResource Include="Windows.Forms\ConfigureControl.resx">
       <DependentUpon>ConfigureControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Translator.resx">
+    <EmbeddedResource Include="Windows.Forms\Translator.resx">
       <DependentUpon>Translator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WordKanaDictionary.resx">
+    <EmbeddedResource Include="Windows.Forms\WordKanaDictionary.resx">
       <DependentUpon>WordKanaDictionary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

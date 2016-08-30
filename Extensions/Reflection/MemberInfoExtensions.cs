@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace MusicBeePlugin.Extensions
+namespace MusicBeePlugin.Extensions.Reflection
 {
     public static class MemberInfoExtension
     {

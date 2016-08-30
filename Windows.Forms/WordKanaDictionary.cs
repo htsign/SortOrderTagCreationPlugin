@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace MusicBeePlugin
+namespace MusicBeePlugin.Windows.Forms
 {
     public partial class WordKanaDictionary : Form
     {

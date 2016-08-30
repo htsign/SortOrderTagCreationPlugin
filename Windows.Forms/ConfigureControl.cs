@@ -6,10 +6,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using MusicBeePlugin.Extensions;
 
-namespace MusicBeePlugin
+namespace MusicBeePlugin.Windows.Forms
 {
+    using Extensions.Windows.Forms;
+
     public partial class ConfigureControl : UserControl
     {
         private string configPath;

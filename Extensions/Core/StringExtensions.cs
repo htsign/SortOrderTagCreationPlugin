@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace MusicBeePlugin.Extensions
+namespace MusicBeePlugin.Extensions.Core
 {
     public static class StringExtension
     {

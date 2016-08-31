@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -143,9 +144,22 @@ namespace MusicBeePlugin
         ///<summary>対応するソートタグ</summary>
         [XmlText]
         public MetaDataType SortTag { get; set; }
-        ///<summary>対応するソートタグのタグ名</summary>
+        
+        ///<summary>対応するソートタグのタグタイプ</summary>
         [XmlIgnore]
-        public string Name => Enum.GetName(typeof(MetaDataType), SortTag);
+        public MetaDataType TagType
+        {
+            get
+            {
+                if      (Equals(Config.Instance.SortArtist))      return MetaDataType.Artist;
+                else if (Equals(Config.Instance.SortAlbumArtist)) return MetaDataType.AlbumArtist;
+                else if (Equals(Config.Instance.SortTitle))       return MetaDataType.TrackTitle;
+                else if (Equals(Config.Instance.SortAlbum))       return MetaDataType.Album;
+                else if (Equals(Config.Instance.SortComposer))    return MetaDataType.Composer;
+
+                throw new IndexOutOfRangeException();
+            }
+        }
 
         public SortCustomTag(bool enabled, MetaDataType sortTag) : this()
         {

@@ -23,7 +23,7 @@ namespace MusicBeePlugin
         }
 
         // ソート関連
-        protected override bool SupportsSortingCore { get { return true; } }
+        protected override bool SupportsSortingCore => true;
 
         protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
@@ -40,20 +40,20 @@ namespace MusicBeePlugin
                 isSorted = false;
             }
 
-            this.direction = direction;
-            sortProperty = prop;
+            sortProperty  = prop;
+            sortDirection = direction;
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
         private bool isSorted;
         protected override bool IsSortedCore => isSorted;
 
-        private ListSortDirection direction;
-        protected override ListSortDirection SortDirectionCore => direction;
-
         [NonSerialized]
         private PropertyDescriptor sortProperty;
         protected override PropertyDescriptor SortPropertyCore => sortProperty;
+
+        private ListSortDirection sortDirection;
+        protected override ListSortDirection SortDirectionCore => sortDirection;
 
         public class PropertyComparer<T>
             : IComparer<T>
@@ -69,7 +69,7 @@ namespace MusicBeePlugin
 
             public int Compare(T x, T y)
             {
-                IComparable left = name.GetValue(x) as IComparable;
+                IComparable left  = name.GetValue(x) as IComparable;
                 IComparable right = name.GetValue(y) as IComparable;
 
                 int result;

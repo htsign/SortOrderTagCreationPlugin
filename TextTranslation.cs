@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MusicBeePlugin
 {
-    public sealed class TextTranslation
+    public static class TextTranslation
     {
         private static readonly string PrefixBracket  = "[[[";
         private static readonly string PostfixBracket = "]]]";
@@ -132,9 +132,9 @@ namespace MusicBeePlugin
         }
     }
 
-    class CorrespondenceTable
+    static class CorrespondenceTable
     {
-        private List<KanaRelation> relations = new List<KanaRelation>
+        private static KanaRelation[] relations = new KanaRelation[]
         {
             new KanaRelation('あ', 'ア', "ｱ"),
             new KanaRelation('い', 'イ', "ｲ"),
@@ -239,13 +239,13 @@ namespace MusicBeePlugin
             new KanaRelation('ゔ', 'ヴ', "ｳﾞ"),
         };
 
-        public char GetHiragana(char katakana)
+        public static char GetHiragana(char katakana)
         {
             int index = Array.IndexOf(relations.Select(r => r.Katakana).ToArray(), katakana);
             return (index != -1) ? relations[index].Hiragana : '\0';
         }
 
-        public char GetHiragana(string halfKana)
+        public static char GetHiragana(string halfKana)
         {
             int index = Array.IndexOf(relations.Select(r => r.HalfKana).ToArray(), halfKana);
             return (index != -1) ? relations[index].Hiragana : '\0';

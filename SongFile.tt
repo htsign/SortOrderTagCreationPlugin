@@ -60,14 +60,14 @@ namespace MusicBeePlugin
 
             if (Config.Instance.DontOverwrite)
             {
-                string newTagValue = this[condition.Name]; // ソート元のタグの取得
-                string oldTagValue = this[condition.SortTag.ToString()];
+                string newTagValue = this[condition.TagType]; // ソート元のタグの取得
+                string oldTagValue = this[condition.SortTag];
 
                 // ソート元のタグとの一致判定
                 // 一致しなかった場合はソートタグにも値が含まれていると見做して中断
                 if (newTagValue != oldTagValue) return false;
             }
-            this[condition.Name] = value;
+            this[condition.TagType] = value;
             return true;
         }
 

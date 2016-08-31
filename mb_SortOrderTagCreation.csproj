@@ -124,7 +124,7 @@
     <Compile Include="Windows.Forms\WordKanaDictionary.Designer.cs">
       <DependentUpon>WordKanaDictionary.cs</DependentUpon>
     </Compile>
-    <Compile Include="WebClientEx.cs">
+    <Compile Include="Net\WebClientEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WordKanaCollection.cs" />

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace MusicBeePlugin
 {
+    using Net;
+
     public abstract class YomiGetter
     {
         public const string Separator = "[][][]";

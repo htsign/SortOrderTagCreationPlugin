@@ -19,18 +19,17 @@ namespace MusicBeePlugin
         /// <returns></returns>
         public static string Translate(string sentence)
         {
-            var cTable = new CorrespondenceTable();
-
             var sb = new StringBuilder();
-            List<char> chars = sentence.ToCharArray().ToList();
-            for (int i = 0; i < chars.Count; i++)
+            for (int i = 0; i < sentence.Length; i++)
             {
+                char hiragana;
+
                 // 次の文字が濁点、または半濁点の場合は結合する
-                if (i + 1 < chars.Count &&
-                    (chars[i + 1] == 'ﾞ' || chars[i + 1] == 'ﾟ'))
+                if (i + 1 < sentence.Length &&
+                    (sentence[i + 1] == 'ﾞ' || sentence[i + 1] == 'ﾟ'))
                 {
-                    string halfKana = string.Concat(chars[i], chars[i + 1]);
-                    char   hiragana = cTable.GetHiragana(halfKana);
+                    string halfKana = string.Concat(sentence[i], sentence[i + 1]);
+                    hiragana = CorrespondenceTable.GetHiragana(halfKana);
                     if (hiragana != '\0')
                     {
                         sb.Append(hiragana);
@@ -39,7 +38,7 @@ namespace MusicBeePlugin
                     else
                     {
                         // 試してダメであれば、chars[i]は1文字で完結するカタカナ、または半角カナの可能性がある
-                        hiragana = cTable.GetHiragana(chars[i]);
+                        hiragana = CorrespondenceTable.GetHiragana(sentence[i]);
                         if (hiragana != '\0')
                         {
                             sb.Append(hiragana);
@@ -47,35 +46,35 @@ namespace MusicBeePlugin
                         else
                         {
                             // 試してダメであれば、chars[i]は1文字で完結する半角カナの可能性がある
-                            hiragana = cTable.GetHiragana(chars[i].ToString());
+                            hiragana = CorrespondenceTable.GetHiragana(sentence[i].ToString());
                             if (hiragana != '\0')
                             {
                                 sb.Append(hiragana);
                             }
                             else
                             {
-                                sb.Append(chars[i]);
+                                sb.Append(sentence[i]);
                             }
                         }
                     }
                 }
                 else
                 {
-                    char hiragana = cTable.GetHiragana(chars[i]);
+                    hiragana = CorrespondenceTable.GetHiragana(sentence[i]);
                     if (hiragana != '\0')
                     {
                         sb.Append(hiragana);
                     }
                     else
                     {
-                        hiragana = cTable.GetHiragana(chars[i].ToString());
+                        hiragana = CorrespondenceTable.GetHiragana(sentence[i].ToString());
                         if (hiragana != '\0')
                         {
                             sb.Append(hiragana);
                         }
                         else
                         {
-                            sb.Append(chars[i]);
+                            sb.Append(sentence[i]);
                         }
                     }
                 }
@@ -95,16 +94,13 @@ namespace MusicBeePlugin
         {
             var outOfKanjis = new Regex(Config.Instance.ReplacesRegExp);
             var outOptions = new List<string>();
-            int count = 0;
 
-            while (true)
+            for (int i = 0; ; ++i)
             {
                 Match m = outOfKanjis.Match(sentence);
                 if (!m.Success) break;
-                sentence = outOfKanjis.Replace(sentence, PrefixBracket + count.ToString() + PostfixBracket, 1);
+                sentence = outOfKanjis.Replace(sentence, $"{PrefixBracket}{i}{PostfixBracket}", 1);
                 outOptions.Add(m.Value);
-
-                count++;
             }
 
             options = outOptions.ToArray();
@@ -118,16 +114,11 @@ namespace MusicBeePlugin
         /// <see cref="ChangeOriginToTemporary"/>
         public static void ChangeTemporaryToOrigin(ref string sentence, string[] options)
         {
-            int index;
-            int count = 0;
-
-            while (true)
+            for (int i = 0; i < options.Length; ++i)
             {
-                index = sentence.IndexOf(PrefixBracket + count.ToString() + PostfixBracket);
-                if (index == -1 || options.Length == count) break;
-                sentence = sentence.Replace(PrefixBracket + count.ToString() + PostfixBracket, options[count]);
-
-                count++;
+                string searchString = $"{PrefixBracket}{i}{PostfixBracket}";
+                if (!sentence.Contains(searchString)) break;
+                sentence = sentence.Replace(searchString, options[i]);
             }
         }
     }
@@ -254,9 +245,9 @@ namespace MusicBeePlugin
 
     struct KanaRelation
     {
-        public char   Hiragana { get; private set; }
-        public char   Katakana { get; private set; }
-        public string HalfKana { get; private set; }
+        public char   Hiragana { get; }
+        public char   Katakana { get; }
+        public string HalfKana { get; }
 
         public KanaRelation(char hiragana, char katakana, string halfKana)
             : this()

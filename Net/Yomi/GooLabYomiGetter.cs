@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace MusicBeePlugin.Net.Yomi
 {
+    using Extensions.Core;
+
     public class GooLabYomiGetter : YomiGetter
     {
         private const string AppID = "92551a83656d8ea869f8a0f001c3addc098775be7236cfe71cc02c56e618dcaa";
@@ -16,6 +19,20 @@ namespace MusicBeePlugin.Net.Yomi
         {
             string requestUrl = "https://labs.goo.ne.jp/api/hiragana";
             Guid guid = Guid.NewGuid();
+            var evacuations = new List<string>();
+
+            var re = new Regex(@"\[\[\[(\d+)\]\]\]");
+            for (int i = 0; re.IsMatch(query); ++i)
+            {
+                Match m = re.Match(query);
+                string innerValue = m.Groups[1].Value;
+
+                if (i == int.Parse(innerValue))
+                {
+                    evacuations.Add(m.Value);
+                    query = re.Replace(query, Separator, 1);
+                }
+            }
 
             var wc = new WebClientEx();
             return await wc.UploadValuesTaskAsync(requestUrl, new NameValueCollection {
@@ -35,8 +52,14 @@ namespace MusicBeePlugin.Net.Yomi
                 }
                 if (json.request_id != guid.ToString()) return null;
 
-                string result = json.converted;
-                return string.Join("", result.Split(' '));
+                string result = json.converted.Split(' ').Join();
+                for (int i = 0; i < evacuations.Count; i++)
+                {
+                    re = new Regex(@"\[\]\[\]\[\]");
+                    result = re.Replace(result, evacuations[i], 1);
+                }
+
+                return result;
             });
         }
     }

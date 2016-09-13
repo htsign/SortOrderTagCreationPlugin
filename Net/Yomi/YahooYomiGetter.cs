@@ -1,43 +1,19 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
-using System.Threading.Tasks;
 
-namespace MusicBeePlugin
+namespace MusicBeePlugin.Net.Yomi
 {
-    using Net;
-
-    public abstract class YomiGetter
-    {
-        public const string Separator = "[][][]";
-
-        protected string Query { get; private set; }
-
-        public abstract Task<string> GetYomiAsync();
-
-        public static YomiGetter Create(APIEngine engine, string query)
-        {
-            switch (engine)
-            {
-                case APIEngine.Yahoo:   return new YahooYomiGetter   { Query = query };
-                case APIEngine.Yomitan: return new YomitanYomiGetter { Query = query };
-                default:
-                    throw new ArgumentException("不正なAPIEngineが渡されました。", nameof(engine));
-            }
-        }
-    }
-
-    public class YahooYomiGetter
-        : YomiGetter
+    public class YahooYomiGetter : YomiGetter
     {
         private const string AppID = "dj0zaiZpPUdSNEQ3UjlqRTYwcSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-";
 
-        public override async Task<string> GetYomiAsync()
+        public override async Task<string> GetYomiAsync(string query)
         {
-            string sentence = HttpUtility.UrlEncode(Query);
-            string requestUrl = $"http://jlp.yahooapis.jp/FuriganaService/V1/furigana?appid={AppID}&grade=1&sentence={sentence}";
+            string sentence = HttpUtility.UrlEncode(query);
+            string requestUrl = "http:" + $"//jlp.yahooapis.jp/FuriganaService/V1/furigana?appid={AppID}&grade=1&sentence={sentence}";
 
             var wc = new WebClientEx();
             return await wc.DownloadStringTaskAsync(requestUrl)
@@ -76,19 +52,6 @@ namespace MusicBeePlugin
                     }
                     return sb.ToString();
                 });
-        }
-    }
-
-    public class YomitanYomiGetter
-        : YomiGetter
-    {
-        public override async Task<string> GetYomiAsync()
-        {
-            string sentence = HttpUtility.UrlEncode(Query);
-            string requestUrl = $"http://yomi-tan.jp/api/yomi.php?n=1&t={sentence}";
-
-            var wc = new WebClientEx();
-            return await wc.DownloadStringTaskAsync(requestUrl);
         }
     }
 }

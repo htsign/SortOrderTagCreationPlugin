@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Net\Yomi\YahooYomiGetter.cs" />
+    <Compile Include="Net\Yomi\YomitanYomiGetter.cs" />
     <Compile Include="Windows.Forms\ConfigureControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,7 +138,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="YomiGetter.cs" />
+    <Compile Include="Net\Yomi\YomiGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

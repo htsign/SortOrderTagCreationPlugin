@@ -10,6 +10,7 @@ namespace MusicBeePlugin.Windows.Forms
 {
     using System.Threading;
     using Extensions.Core;
+    using Net.Yomi;
     using static Plugin;
 
     public partial class Translator : Form
@@ -127,8 +128,8 @@ namespace MusicBeePlugin.Windows.Forms
             if (Regex.IsMatch(query, Config.Instance.MatchesRegExp))
             {
                 // 漢字が含まれていればWebAPIでさらに変換する
-                YomiGetter getter = YomiGetter.Create(Config.Instance.APIEngine, query);
-                result = await getter?.GetYomiAsync();
+                YomiGetter getter = YomiGetter.Create(Config.Instance.APIEngine);
+                result = await getter?.GetYomiAsync(query);
             }
             else
             {

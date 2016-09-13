@@ -15,6 +15,22 @@ namespace MusicBeePlugin.Extensions.Core
             => self.Replace(separator, "\0").Split('\0');
 
         /// <summary>
+        /// 空文字で文字列を結合します。
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string Join(this string[] self) => self.Join("");
+
+        /// <summary>
+        /// <paramref name="selarator"/>で文字列を結合します。
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static string Join(this string[] self, string separator)
+            => string.Join(separator, self);
+
+        /// <summary>
         /// 指定の文字列で挟まれているかを返します。
         /// </summary>
         /// <param name="self"></param>

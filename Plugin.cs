@@ -157,9 +157,9 @@ namespace MusicBeePlugin
 
             Config.Instance.Load(configPath);
 
-            IntPtr handle = mbApiInterface.MB_GetWindowHandle();
-            var mbWindow  = (Form)Control.FromHandle(handle);
-            var translator = new Translator(mbApiInterface, songs);
+            IntPtr handle     = mbApiInterface.MB_GetWindowHandle();
+            var    mbWindow   = (Form)Control.FromHandle(handle);
+            var    translator = new Translator(mbApiInterface, songs, Config.Instance.APIEngine);
             translator.Show(mbWindow);
         }
 

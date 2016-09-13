@@ -80,12 +80,17 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -93,6 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Net\WebClientEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Net\Yomi\GooLabYomiGetter.cs" />
+    <Compile Include="Net\Yomi\YahooYomiGetter.cs" />
+    <Compile Include="Net\Yomi\YomiGetter.cs" />
+    <Compile Include="Net\Yomi\YomitanYomiGetter.cs" />
     <Compile Include="Windows.Forms\ConfigureControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,9 +136,6 @@
     <Compile Include="Windows.Forms\WordKanaDictionary.Designer.cs">
       <DependentUpon>WordKanaDictionary.cs</DependentUpon>
     </Compile>
-    <Compile Include="WebClientEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="WordKanaCollection.cs" />
     <Compile Include="MusicBeeInterface.cs" />
     <Compile Include="Plugin.cs" />
@@ -136,7 +145,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="YomiGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -119,6 +119,8 @@ namespace MusicBeePlugin
                     return "Yahoo!Japan";
                 case APIEngine.Yomitan:
                     return "よみたん";
+                case APIEngine.GooLab:
+                    return "gooラボ";
             }
             return null;
         }
@@ -133,6 +135,7 @@ namespace MusicBeePlugin
     {
         Yahoo,
         Yomitan,
+        GooLab,
     }
 
     [Serializable]

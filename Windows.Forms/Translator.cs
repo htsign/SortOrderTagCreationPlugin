@@ -10,6 +10,7 @@ namespace MusicBeePlugin.Windows.Forms
 {
     using System.Threading;
     using Extensions.Core;
+    using Net.Yomi;
     using static Plugin;
 
     public partial class Translator : Form
@@ -18,6 +19,7 @@ namespace MusicBeePlugin.Windows.Forms
 
         private MusicBeeApiInterface mbApiInterface;
         private string[] songs;
+        private YomiGetter getter;
         private Stopwatch sw = new Stopwatch();
         private Timer startRemainingUpdating;
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -47,12 +49,14 @@ namespace MusicBeePlugin.Windows.Forms
         #endregion
 
         #region constructors
-        public Translator(MusicBeeApiInterface api, string[] songs)
+        public Translator(MusicBeeApiInterface api, string[] songs, APIEngine engine)
         {
             InitializeComponent();
 
             mbApiInterface = api;
             this.songs = songs;
+            getter = YomiGetter.Create(engine);
+
             tokenSource.Token.Register(() =>
             {
                 startRemainingUpdating.Change(Timeout.Infinite, Timeout.Infinite);
@@ -127,8 +131,7 @@ namespace MusicBeePlugin.Windows.Forms
             if (Regex.IsMatch(query, Config.Instance.MatchesRegExp))
             {
                 // 漢字が含まれていればWebAPIでさらに変換する
-                YomiGetter getter = YomiGetter.Create(Config.Instance.APIEngine, query);
-                result = await getter?.GetYomiAsync();
+                result = await getter?.GetYomiAsync(query);
             }
             else
             {

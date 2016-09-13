@@ -195,7 +195,7 @@ namespace MusicBeePlugin
                 // 一致しなかった場合はソートタグにも値が含まれていると見做して中断
                 if (newTagValue != oldTagValue) return false;
             }
-            this[condition.TagType] = value;
+            this[condition.SortTag] = value;
             return true;
         }
 

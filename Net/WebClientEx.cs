@@ -52,6 +52,25 @@ namespace MusicBeePlugin.Net
             return tcs.Task;
         }
 
+        public Task<byte[]> DownloadDataTaskAsync(string address)
+        {
+            var tcs = new TaskCompletionSource<byte[]>(address);
+            
+            DownloadDataCompletedEventHandler handler = null;
+            handler = (sender, e) => HandleCompletion(tcs, e, (args) => args.Result, handler,
+                (webClient, completion) => webClient.DownloadDataCompleted -= completion);
+            DownloadDataCompleted += handler;
+            
+            try { DownloadDataAsync(new Uri(address), tcs); }
+            catch
+            {
+                DownloadDataCompleted -= handler;
+                throw;
+            }
+            
+            return tcs.Task;
+        }
+
         public Task<byte[]> UploadValuesTaskAsync(string uri, NameValueCollection data)
         {
             var tcs = new TaskCompletionSource<byte[]>();

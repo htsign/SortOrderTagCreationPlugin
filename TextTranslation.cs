@@ -8,8 +8,8 @@ namespace MusicBeePlugin
 {
     public static class TextTranslation
     {
-        private static readonly string PrefixBrackets = "[[[";
-        private static readonly string SuffixBrackets = "]]]";
+        public static readonly string PrefixBrackets = "[[[";
+        public static readonly string SuffixBrackets = "]]]";
 
         /// <summary>
         /// カタカナ、半角カナをひらがなに置き換える。

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -12,6 +13,8 @@ namespace MusicBeePlugin.Net.Yomi
             string requestUrl = "http:" + $"//yomi-tan.jp/api/yomi.php?n=1&t={sentence}";
 
             var wc = new WebClientEx();
+            wc.Headers[HttpRequestHeader.UserAgent] = nameof(YomitanYomiGetter);
+
             return await wc.DownloadDataTaskAsync(requestUrl)
                 .ContinueWith(t => Encoding.UTF8.GetString(t.Result));
         }

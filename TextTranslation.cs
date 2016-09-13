@@ -8,8 +8,8 @@ namespace MusicBeePlugin
 {
     public static class TextTranslation
     {
-        private static readonly string PrefixBracket  = "[[[";
-        private static readonly string PostfixBracket = "]]]";
+        private static readonly string PrefixBrackets = "[[[";
+        private static readonly string SuffixBrackets = "]]]";
 
         /// <summary>
         /// カタカナ、半角カナをひらがなに置き換える。
@@ -99,7 +99,7 @@ namespace MusicBeePlugin
             {
                 Match m = outOfKanjis.Match(sentence);
                 if (!m.Success) break;
-                sentence = outOfKanjis.Replace(sentence, $"{PrefixBracket}{i}{PostfixBracket}", 1);
+                sentence = outOfKanjis.Replace(sentence, $"{PrefixBrackets}{i}{SuffixBrackets}", 1);
                 outOptions.Add(m.Value);
             }
 
@@ -116,7 +116,7 @@ namespace MusicBeePlugin
         {
             for (int i = 0; i < options.Length; ++i)
             {
-                string searchString = $"{PrefixBracket}{i}{PostfixBracket}";
+                string searchString = $"{PrefixBrackets}{i}{SuffixBrackets}";
                 if (!sentence.Contains(searchString)) break;
                 sentence = sentence.Replace(searchString, options[i]);
             }

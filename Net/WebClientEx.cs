@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -30,26 +32,63 @@ namespace MusicBeePlugin.Net
             }
             return res;
         }
-
-        // ref: http://www.atmarkit.co.jp/ait/articles/1109/30/news126_2.html
-        public Task<string> DownloadStringTaskAsync(string uri)
+        
+        public Task<string> DownloadStringTaskAsync(string address)
         {
-            var tcs = new TaskCompletionSource<string>();
+            var tcs = new TaskCompletionSource<string>(address);
 
             DownloadStringCompletedEventHandler handler = null;
-
-            handler = (sender, e) =>
-            {
-                if (e.Cancelled) tcs.TrySetCanceled();
-                else if (e.Error != null) tcs.TrySetException(e.Error);
-                else tcs.TrySetResult(e.Result);
-                DownloadStringCompleted -= handler;
-            };
-
+            handler = (sender, e) => HandleCompletion(tcs, e, args => args.Result, handler,
+                (webClient, completion) => webClient.DownloadStringCompleted -= completion);
             DownloadStringCompleted += handler;
-            DownloadStringAsync(new Uri(uri));
-
+            
+            try { DownloadStringAsync(new Uri(address), tcs); }
+            catch
+            {
+                DownloadStringCompleted -= handler;
+                throw;
+            }
+            
             return tcs.Task;
+        }
+
+        public Task<byte[]> UploadValuesTaskAsync(string uri, NameValueCollection data)
+        {
+            var tcs = new TaskCompletionSource<byte[]>();
+
+            UploadValuesCompletedEventHandler handler = null;
+            handler = (sender, e) => HandleCompletion(tcs, e, args => args.Result, handler,
+                (webClient, completion) => webClient.UploadValuesCompleted -= completion);
+            UploadValuesCompleted += handler;
+
+            try { UploadValuesAsync(new Uri(uri), null, data, tcs); }
+            catch
+            {
+                UploadValuesCompleted -= handler;
+                throw;
+            }
+            
+            return tcs.Task;
+        }
+
+        private void HandleCompletion<TAsyncCompletedEventArgs, TCompletionDelegate, T>(
+            TaskCompletionSource<T> tcs,
+            TAsyncCompletedEventArgs e,
+            Func<TAsyncCompletedEventArgs, T> getResult,
+            TCompletionDelegate handler,
+            Action<WebClientEx, TCompletionDelegate> unregisterHandler)
+            where TAsyncCompletedEventArgs : AsyncCompletedEventArgs
+        {
+            if (e.UserState == tcs)
+            {
+                try { unregisterHandler(this, handler); }
+                finally
+                {
+                    if (e.Error != null) tcs.TrySetException(e.Error);
+                    else if (e.Cancelled) tcs.TrySetCanceled();
+                    else tcs.TrySetResult(getResult(e));
+                }
+            }
         }
     }
 }

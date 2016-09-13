@@ -15,6 +15,7 @@ namespace MusicBeePlugin.Net.Yomi
             {
                 case APIEngine.Yahoo:   return new YahooYomiGetter();
                 case APIEngine.Yomitan: return new YomitanYomiGetter();
+                case APIEngine.GooLab:  return new GooLabYomiGetter();
                 default:
                     throw new ArgumentException($"不正な{nameof(APIEngine)}が渡されました。", nameof(engine));
             }

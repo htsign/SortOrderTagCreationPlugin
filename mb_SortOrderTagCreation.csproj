@@ -83,6 +83,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Net\Yomi\GooLabYomiGetter.cs" />
     <Compile Include="Net\Yomi\YahooYomiGetter.cs" />
     <Compile Include="Net\Yomi\YomitanYomiGetter.cs" />
     <Compile Include="Windows.Forms\ConfigureControl.cs">

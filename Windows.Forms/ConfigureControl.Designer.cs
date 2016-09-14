@@ -348,6 +348,7 @@
             // checkBox_addSortOrderTagsWhenLibraryChanged
             // 
             this.checkBox_addSortOrderTagsWhenLibraryChanged.AutoSize = true;
+            this.checkBox_addSortOrderTagsWhenLibraryChanged.Enabled = false;
             this.checkBox_addSortOrderTagsWhenLibraryChanged.Location = new System.Drawing.Point(306, 17);
             this.checkBox_addSortOrderTagsWhenLibraryChanged.Name = "checkBox_addSortOrderTagsWhenLibraryChanged";
             this.checkBox_addSortOrderTagsWhenLibraryChanged.Size = new System.Drawing.Size(236, 16);

@@ -12,11 +12,10 @@ namespace MusicBeePlugin.Net.Yomi
             string sentence = HttpUtility.UrlEncode(query);
             string requestUrl = "http:" + $"//yomi-tan.jp/api/yomi.php?n=1&t={sentence}";
 
-            var wc = new WebClientEx();
+            var wc = new WebClientEx { Encoding = Encoding.UTF8 };
             wc.Headers[HttpRequestHeader.UserAgent] = nameof(YomitanYomiGetter);
 
-            return await wc.DownloadDataTaskAsync(requestUrl)
-                .ContinueWith(t => Encoding.UTF8.GetString(t.Result));
+            return await wc.DownloadStringTaskAsync(requestUrl);
         }
     }
 }

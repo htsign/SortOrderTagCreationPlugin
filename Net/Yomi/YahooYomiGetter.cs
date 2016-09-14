@@ -15,9 +15,9 @@ namespace MusicBeePlugin.Net.Yomi
             string sentence = HttpUtility.UrlEncode(query);
             string requestUrl = "http:" + $"//jlp.yahooapis.jp/FuriganaService/V1/furigana?appid={AppID}&grade=1&sentence={sentence}";
 
-            var wc = new WebClientEx();
-            return await wc.DownloadDataTaskAsync(requestUrl)
-                .ContinueWith(t => Encoding.UTF8.GetString(t.Result))
+            var wc = new WebClientEx { Encoding = Encoding.UTF8 };
+
+            return await wc.DownloadStringTaskAsync(requestUrl)
                 .ContinueWith(t =>
                 {
                     var xmlDoc = new XmlDocument();

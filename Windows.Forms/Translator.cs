@@ -127,17 +127,9 @@ namespace MusicBeePlugin.Windows.Forms
             // 漢字以外を変換対象とさせないため一旦退避する
             TextTranslation.ChangeOriginToTemporary(ref query, out options);
 
-            string result;
-            if (Regex.IsMatch(query, Config.Instance.MatchesRegExp))
-            {
-                // 漢字が含まれていればWebAPIでさらに変換する
-                result = await getter?.GetYomiAsync(query);
-            }
-            else
-            {
-                // 漢字がなければ変換を終了
-                result = query;
-            }
+            // 漢字が含まれていればWebAPIでさらに変換する
+            bool containsKanji = Regex.IsMatch(query, Config.Instance.MatchesRegExp);
+            string result = containsKanji ? await getter?.GetYomiAsync(query) : query;
 
             if (result != null)
             {

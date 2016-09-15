@@ -11,7 +11,7 @@ namespace MusicBeePlugin.Net.Yomi
 {
     using Extensions.Core;
 
-    public class GooLabYomiGetter : YomiGetter
+    public class GooLabYomiGetter : YomiGetterBase
     {
         private const string AppID = "92551a83656d8ea869f8a0f001c3addc098775be7236cfe71cc02c56e618dcaa";
         private const string PrefixBrackets = @"\[\[\[";

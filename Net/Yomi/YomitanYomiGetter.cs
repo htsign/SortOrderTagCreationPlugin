@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MusicBeePlugin.Net.Yomi
 {
-    public class YomitanYomiGetter : YomiGetter
+    public class YomitanYomiGetter : YomiGetterBase
     {
         public override async Task<string> GetYomiAsync(string query)
         {

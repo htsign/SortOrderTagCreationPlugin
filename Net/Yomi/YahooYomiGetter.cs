@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace MusicBeePlugin.Net.Yomi
 {
-    public class YahooYomiGetter : YomiGetter
+    public class YahooYomiGetter : YomiGetterBase
     {
         private const string AppID = "dj0zaiZpPUdSNEQ3UjlqRTYwcSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-";
 

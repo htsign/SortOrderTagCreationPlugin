@@ -103,7 +103,7 @@
     </Compile>
     <Compile Include="Net\Yomi\GooLabYomiGetter.cs" />
     <Compile Include="Net\Yomi\YahooYomiGetter.cs" />
-    <Compile Include="Net\Yomi\YomiGetter.cs" />
+    <Compile Include="Net\Yomi\YomiGetterBase.cs" />
     <Compile Include="Net\Yomi\YomitanYomiGetter.cs" />
     <Compile Include="Windows.Forms\ConfigureControl.cs">
       <SubType>UserControl</SubType>

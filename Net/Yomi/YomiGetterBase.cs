@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace MusicBeePlugin.Net.Yomi
 {
-    public abstract class YomiGetter
+    public abstract class YomiGetterBase
     {
         public const string Separator = "[][][]";
 
         public abstract Task<string> GetYomiAsync(string query);
 
-        public static YomiGetter Create(APIEngine engine)
+        public static YomiGetterBase Create(APIEngine engine)
         {
             switch (engine)
             {

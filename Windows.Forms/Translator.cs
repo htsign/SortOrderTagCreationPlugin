@@ -19,7 +19,7 @@ namespace MusicBeePlugin.Windows.Forms
 
         private MusicBeeApiInterface mbApiInterface;
         private string[] songs;
-        private YomiGetter getter;
+        private YomiGetterBase getter;
         private Stopwatch sw = new Stopwatch();
         private Timer startRemainingUpdating;
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -55,7 +55,7 @@ namespace MusicBeePlugin.Windows.Forms
 
             mbApiInterface = api;
             this.songs = songs;
-            getter = YomiGetter.Create(engine);
+            getter = YomiGetterBase.Create(engine);
 
             tokenSource.Token.Register(() =>
             {
@@ -106,7 +106,7 @@ namespace MusicBeePlugin.Windows.Forms
         {
             var song = new SongFile(mbApiInterface, filepath);
 
-            string query = string.Join(YomiGetter.Separator,
+            string query = string.Join(YomiGetterBase.Separator,
                 song.Artist, song.AlbumArtist, song.TrackTitle, song.Album, song.Composer);
             string[] options;
 
@@ -137,7 +137,7 @@ namespace MusicBeePlugin.Windows.Forms
                 TextTranslation.ChangeTemporaryToOrigin(ref result, options);
 
                 // タグの書き込み
-                string[] resultParts = result.Split(YomiGetter.Separator);
+                string[] resultParts = result.Split(YomiGetterBase.Separator);
                 song.WriteTag(Config.Instance.SortArtist,      resultParts[0]);
                 song.WriteTag(Config.Instance.SortAlbumArtist, resultParts[1]);
                 song.WriteTag(Config.Instance.SortTitle,       resultParts[2]);

@@ -41,11 +41,6 @@ namespace MusicBeePlugin.Windows.Forms
                 .RunSynchronously(uiScheduler);
             }
         }
-
-        private bool isOpened = false;
-        public bool IsOpened => isOpened;
-
-        public bool Terminated => tokenSource.IsCancellationRequested;
         #endregion
 
         #region constructors
@@ -87,7 +82,7 @@ namespace MusicBeePlugin.Windows.Forms
             .ContinueWith(_ =>
                 MessageBox.Show("ユーザーの操作により中断されました。"),
                 TaskContinuationOptions.OnlyOnCanceled)
-            .ContinueWith(_ => Close());
+            .ContinueWith(_ => Close(), uiScheduler);
         }
 
         public void SetRemainingTime(TimeSpan remaining)
@@ -167,8 +162,7 @@ namespace MusicBeePlugin.Windows.Forms
                     SetRemainingTime(TimeSpan.FromSeconds(remainingTime));
                 },
                 null, 0, RemainingTimeUpdateInterval);
-
-            isOpened = true;
+            
             sw.Start();
 
             await TranslateSongsAsync();

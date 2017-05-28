@@ -125,110 +125,111 @@ namespace MusicBeePlugin
 
     static class CorrespondenceTable
     {
-        private static KanaRelation[] relations = new KanaRelation[]
+        private static KanaRelation[] relations = new List<KanaRelation>
         {
-            new KanaRelation('あ', 'ア', "ｱ"),
-            new KanaRelation('い', 'イ', "ｲ"),
-            new KanaRelation('う', 'ウ', "ｳ"),
-            new KanaRelation('え', 'エ', "ｴ"),
-            new KanaRelation('お', 'オ', "ｵ"),
+            { 'あ', 'ア', "ｱ" },
+            { 'い', 'イ', "ｲ" },
+            { 'う', 'ウ', "ｳ" },
+            { 'え', 'エ', "ｴ" },
+            { 'お', 'オ', "ｵ" },
 
-            new KanaRelation('か', 'カ', "ｶ"),
-            new KanaRelation('き', 'キ', "ｷ"),
-            new KanaRelation('く', 'ク', "ｸ"),
-            new KanaRelation('け', 'ケ', "ｹ"),
-            new KanaRelation('こ', 'コ', "ｺ"),
+            { 'か', 'カ', "ｶ" },
+            { 'き', 'キ', "ｷ" },
+            { 'く', 'ク', "ｸ" },
+            { 'け', 'ケ', "ｹ" },
+            { 'こ', 'コ', "ｺ" },
 
-            new KanaRelation('さ', 'サ', "ｻ"),
-            new KanaRelation('し', 'シ', "ｼ"),
-            new KanaRelation('す', 'ス', "ｽ"),
-            new KanaRelation('せ', 'セ', "ｾ"),
-            new KanaRelation('そ', 'ソ', "ｿ"),
+            { 'さ', 'サ', "ｻ" },
+            { 'し', 'シ', "ｼ" },
+            { 'す', 'ス', "ｽ" },
+            { 'せ', 'セ', "ｾ" },
+            { 'そ', 'ソ', "ｿ" },
 
-            new KanaRelation('た', 'タ', "ﾀ"),
-            new KanaRelation('ち', 'チ', "ﾁ"),
-            new KanaRelation('つ', 'ツ', "ﾂ"),
-            new KanaRelation('て', 'テ', "ﾃ"),
-            new KanaRelation('と', 'ト', "ﾄ"),
+            { 'た', 'タ', "ﾀ" },
+            { 'ち', 'チ', "ﾁ" },
+            { 'つ', 'ツ', "ﾂ" },
+            { 'て', 'テ', "ﾃ" },
+            { 'と', 'ト', "ﾄ" },
 
-            new KanaRelation('な', 'ナ', "ﾅ"),
-            new KanaRelation('に', 'ニ', "ﾆ"),
-            new KanaRelation('ぬ', 'ヌ', "ﾇ"),
-            new KanaRelation('ね', 'ネ', "ﾈ"),
-            new KanaRelation('の', 'ノ', "ﾉ"),
+            { 'な', 'ナ', "ﾅ" },
+            { 'に', 'ニ', "ﾆ" },
+            { 'ぬ', 'ヌ', "ﾇ" },
+            { 'ね', 'ネ', "ﾈ" },
+            { 'の', 'ノ', "ﾉ" },
 
-            new KanaRelation('は', 'ハ', "ﾊ"),
-            new KanaRelation('ひ', 'ヒ', "ﾋ"),
-            new KanaRelation('ふ', 'フ', "ﾌ"),
-            new KanaRelation('へ', 'ヘ', "ﾍ"),
-            new KanaRelation('ほ', 'ホ', "ﾎ"),
+            { 'は', 'ハ', "ﾊ" },
+            { 'ひ', 'ヒ', "ﾋ" },
+            { 'ふ', 'フ', "ﾌ" },
+            { 'へ', 'ヘ', "ﾍ" },
+            { 'ほ', 'ホ', "ﾎ" },
 
-            new KanaRelation('ま', 'マ', "ﾏ"),
-            new KanaRelation('み', 'ミ', "ﾐ"),
-            new KanaRelation('む', 'ム', "ﾑ"),
-            new KanaRelation('め', 'メ', "ﾒ"),
-            new KanaRelation('も', 'モ', "ﾓ"),
+            { 'ま', 'マ', "ﾏ" },
+            { 'み', 'ミ', "ﾐ" },
+            { 'む', 'ム', "ﾑ" },
+            { 'め', 'メ', "ﾒ" },
+            { 'も', 'モ', "ﾓ" },
 
-            new KanaRelation('や', 'ヤ', "ﾔ"),
-            new KanaRelation('ゆ', 'ユ', "ﾕ"),
-            new KanaRelation('よ', 'ヨ', "ﾖ"),
+            { 'や', 'ヤ', "ﾔ" },
+            { 'ゆ', 'ユ', "ﾕ" },
+            { 'よ', 'ヨ', "ﾖ" },
 
-            new KanaRelation('ら', 'ラ', "ﾗ"),
-            new KanaRelation('り', 'リ', "ﾘ"),
-            new KanaRelation('る', 'ル', "ﾙ"),
-            new KanaRelation('れ', 'レ', "ﾚ"),
-            new KanaRelation('ろ', 'ロ', "ﾛ"),
+            { 'ら', 'ラ', "ﾗ" },
+            { 'り', 'リ', "ﾘ" },
+            { 'る', 'ル', "ﾙ" },
+            { 'れ', 'レ', "ﾚ" },
+            { 'ろ', 'ロ', "ﾛ" },
 
-            new KanaRelation('わ', 'ワ', "ﾜ"),
-            new KanaRelation('を', 'ヲ', "ｦ"),
-            new KanaRelation('ん', 'ン', "ﾝ"),
+            { 'わ', 'ワ', "ﾜ" },
+            { 'を', 'ヲ', "ｦ" },
+            { 'ん', 'ン', "ﾝ" },
 
-            new KanaRelation('が', 'ガ', "ｶﾞ"),
-            new KanaRelation('ぎ', 'ギ', "ｷﾞ"),
-            new KanaRelation('ぐ', 'グ', "ｸﾞ"),
-            new KanaRelation('げ', 'ゲ', "ｹﾞ"),
-            new KanaRelation('ご', 'ゴ', "ｺﾞ"),
+            { 'が', 'ガ', "ｶﾞ" },
+            { 'ぎ', 'ギ', "ｷﾞ" },
+            { 'ぐ', 'グ', "ｸﾞ" },
+            { 'げ', 'ゲ', "ｹﾞ" },
+            { 'ご', 'ゴ', "ｺﾞ" },
 
-            new KanaRelation('ざ', 'ザ', "ｻﾞ"),
-            new KanaRelation('じ', 'ジ', "ｼﾞ"),
-            new KanaRelation('ず', 'ズ', "ｽﾞ"),
-            new KanaRelation('ぜ', 'ゼ', "ｾﾞ"),
-            new KanaRelation('ぞ', 'ゾ', "ｿﾞ"),
+            { 'ざ', 'ザ', "ｻﾞ" },
+            { 'じ', 'ジ', "ｼﾞ" },
+            { 'ず', 'ズ', "ｽﾞ" },
+            { 'ぜ', 'ゼ', "ｾﾞ" },
+            { 'ぞ', 'ゾ', "ｿﾞ" },
 
-            new KanaRelation('だ', 'ダ', "ﾀﾞ"),
-            new KanaRelation('ぢ', 'ヂ', "ﾁﾞ"),
-            new KanaRelation('づ', 'ヅ', "ﾂﾞ"),
-            new KanaRelation('で', 'デ', "ﾃﾞ"),
-            new KanaRelation('ど', 'ド', "ﾄﾞ"),
+            { 'だ', 'ダ', "ﾀﾞ" },
+            { 'ぢ', 'ヂ', "ﾁﾞ" },
+            { 'づ', 'ヅ', "ﾂﾞ" },
+            { 'で', 'デ', "ﾃﾞ" },
+            { 'ど', 'ド', "ﾄﾞ" },
 
-            new KanaRelation('ば', 'バ', "ﾊﾞ"),
-            new KanaRelation('び', 'ビ', "ﾋﾞ"),
-            new KanaRelation('ぶ', 'ブ', "ﾌﾞ"),
-            new KanaRelation('べ', 'ベ', "ﾍﾞ"),
-            new KanaRelation('ぼ', 'ボ', "ﾎﾞ"),
+            { 'ば', 'バ', "ﾊﾞ" },
+            { 'び', 'ビ', "ﾋﾞ" },
+            { 'ぶ', 'ブ', "ﾌﾞ" },
+            { 'べ', 'ベ', "ﾍﾞ" },
+            { 'ぼ', 'ボ', "ﾎﾞ" },
 
-            new KanaRelation('ぱ', 'パ', "ﾊﾟ"),
-            new KanaRelation('ぴ', 'ピ', "ﾋﾟ"),
-            new KanaRelation('ぷ', 'プ', "ﾌﾟ"),
-            new KanaRelation('ぺ', 'ペ', "ﾍﾟ"),
-            new KanaRelation('ぽ', 'ポ', "ﾎﾟ"),
+            { 'ぱ', 'パ', "ﾊﾟ" },
+            { 'ぴ', 'ピ', "ﾋﾟ" },
+            { 'ぷ', 'プ', "ﾌﾟ" },
+            { 'ぺ', 'ペ', "ﾍﾟ" },
+            { 'ぽ', 'ポ', "ﾎﾟ" },
 
-            new KanaRelation('ぁ', 'ァ', "ｧ"),
-            new KanaRelation('ぃ', 'ィ', "ｨ"),
-            new KanaRelation('ぅ', 'ゥ', "ｩ"),
-            new KanaRelation('ぇ', 'ェ', "ｪ"),
-            new KanaRelation('ぉ', 'ォ', "ｫ"),
+            { 'ぁ', 'ァ', "ｧ" },
+            { 'ぃ', 'ィ', "ｨ" },
+            { 'ぅ', 'ゥ', "ｩ" },
+            { 'ぇ', 'ェ', "ｪ" },
+            { 'ぉ', 'ォ', "ｫ" },
 
-            new KanaRelation('っ', 'ッ', "ｯ"),
-            new KanaRelation('ゃ', 'ャ', "ｬ"),
-            new KanaRelation('ゅ', 'ュ', "ｭ"),
-            new KanaRelation('ょ', 'ョ', "ｮ"),
-            new KanaRelation('ゎ', 'ヮ', string.Empty),
+            { 'っ', 'ッ', "ｯ" },
+            { 'ゃ', 'ャ', "ｬ" },
+            { 'ゅ', 'ュ', "ｭ" },
+            { 'ょ', 'ョ', "ｮ" },
+            { 'ゎ', 'ヮ', string.Empty },
 
-            new KanaRelation('ゐ', 'ヰ', string.Empty),
-            new KanaRelation('ゑ', 'ゑ', string.Empty),
-            new KanaRelation('ゔ', 'ヴ', "ｳﾞ"),
-        };
+            { 'ゐ', 'ヰ', string.Empty },
+            { 'ゑ', 'ゑ', string.Empty },
+            { 'ゔ', 'ヴ', "ｳﾞ" },
+        }
+        .ToArray();
 
         public static char GetHiragana(char katakana)
         {
@@ -243,7 +244,7 @@ namespace MusicBeePlugin
         }
     }
 
-    struct KanaRelation
+    public struct KanaRelation
     {
         public char   Hiragana { get; }
         public char   Katakana { get; }
@@ -255,6 +256,14 @@ namespace MusicBeePlugin
             Hiragana = hiragana;
             Katakana = katakana;
             HalfKana = halfKana;
+        }
+    }
+
+    public static class KanaRelationCollectionExtensions
+    {
+        public static void Add(this ICollection<KanaRelation> self, char hiragana, char katakana, string halfKana)
+        {
+            self.Add(new KanaRelation(hiragana, katakana, halfKana));
         }
     }
 }

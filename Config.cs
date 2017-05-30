@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -90,8 +89,8 @@ namespace MusicBeePlugin
         private string matchesRegExp = DefaultMatchesRegExp;
         public  string MatchesRegExp
         {
-            get { return string.IsNullOrEmpty(matchesRegExp) ? DefaultMatchesRegExp : matchesRegExp; }
-            set { this.matchesRegExp = value; }
+            get => string.IsNullOrEmpty(matchesRegExp) ? DefaultMatchesRegExp : matchesRegExp;
+            set => matchesRegExp = value;
         }
 
         private const string DefaultReplacesRegExp = @"[A-Za-zゔヵヶ\s" +
@@ -104,8 +103,8 @@ namespace MusicBeePlugin
         private string replacesRegExp = DefaultReplacesRegExp;
         public  string ReplacesRegExp
         {
-            get { return string.IsNullOrEmpty(replacesRegExp) ? DefaultReplacesRegExp : replacesRegExp; }
-            set { this.replacesRegExp = value; }
+            get => string.IsNullOrEmpty(replacesRegExp) ? DefaultReplacesRegExp : replacesRegExp;
+            set => replacesRegExp = value;
         }
 
         public WordKanaCollection WordKanaCollection { get; set; } = new WordKanaCollection();

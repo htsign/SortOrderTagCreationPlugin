@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace MusicBeePlugin
 {
     [Serializable]
-    public class WordKanaCollection
-        : BindingList<WordKanaPair>
+    public class WordKanaCollection : BindingList<WordKanaPair>
     {
-        public void AddRange(IEnumerable<WordKanaPair> collection)
-        {
-            foreach (var wkp in collection)
-            {
-                Add(wkp);
-            }
-        }
+        public void AddRange(IEnumerable<WordKanaPair> collection) => collection.ToList().ForEach(Add);
 
-        public void AddRange(WordKanaCollection collection)
-        {
-            AddRange(collection.Items);
-        }
+        public void AddRange(WordKanaCollection collection) => AddRange(collection.Items);
 
         // ソート関連
         protected override bool SupportsSortingCore => true;
@@ -31,7 +22,7 @@ namespace MusicBeePlugin
 
             if (items != null)
             {
-                PropertyComparer<WordKanaPair> pc = new PropertyComparer<WordKanaPair>(prop, direction);
+                var pc = new PropertyComparer<WordKanaPair>(prop, direction);
                 items.Sort(pc);
                 isSorted = true;
             }
@@ -55,8 +46,7 @@ namespace MusicBeePlugin
         private ListSortDirection sortDirection;
         protected override ListSortDirection SortDirectionCore => sortDirection;
 
-        public class PropertyComparer<T>
-            : IComparer<T>
+        private class PropertyComparer<T> : IComparer<T>
         {
             private PropertyDescriptor name;
             private int sortDirection;
@@ -69,8 +59,8 @@ namespace MusicBeePlugin
 
             public int Compare(T x, T y)
             {
-                IComparable left  = name.GetValue(x) as IComparable;
-                IComparable right = name.GetValue(y) as IComparable;
+                var left  = name.GetValue(x) as IComparable;
+                var right = name.GetValue(y) as IComparable;
 
                 int result;
 
@@ -96,9 +86,7 @@ namespace MusicBeePlugin
         [XmlElement]
         public string Kana { get; set; }
 
-        public WordKanaPair()
-            : this(word: "", kana: "")
-        { }
+        public WordKanaPair() : this(word: "", kana: "") { }
 
         public WordKanaPair(string word, string kana)
         {

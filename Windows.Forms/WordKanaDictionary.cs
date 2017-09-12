@@ -54,11 +54,7 @@ namespace MusicBeePlugin.Windows.Forms
             }
         }
 
-        private void ExportTemplate()
-        {
-            this.ImportExportTemplate<SaveFileDialog>(false);
-        }
-
+        private void ExportTemplate() => ImportExportTemplate<SaveFileDialog>(false);
 
         private void dataGridView_wordKanaPairs_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
@@ -101,7 +97,7 @@ namespace MusicBeePlugin.Windows.Forms
                         dgv.ClearSelection();
                         cell.Selected = true;
 
-                        contextMenuStrip_dgv.Show((Control)sender, columnPos, rowPos);
+                        contextMenuStrip_dgv.Show(dgv, columnPos, rowPos);
                     }
                 }
             }
@@ -166,14 +162,14 @@ namespace MusicBeePlugin.Windows.Forms
                     {
                         if (append)
                         {
-                            Config.Instance.WordKanaCollection.AddRange(
-                                data.Where(wkp =>
-                                    {
-                                        string[] words = Config.Instance.WordKanaCollection
-                                            .Select(item => item.Word)
-                                            .ToArray();
-                                        return !words.Contains(wkp.Word);
-                                    }));
+                            bool notRegistered(WordKanaPair wkp)
+                            {
+                                string[] words = Config.Instance.WordKanaCollection
+                                    .Select(item => item.Word)
+                                    .ToArray();
+                                return !words.Contains(wkp.Word);
+                            }
+                            Config.Instance.WordKanaCollection.AddRange(data.Where(notRegistered));
                         }
                         else
                         {

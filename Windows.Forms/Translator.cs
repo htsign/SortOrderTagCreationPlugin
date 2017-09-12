@@ -29,17 +29,14 @@ namespace MusicBeePlugin.Windows.Forms
         private int completed = 0;
         public int Completed
         {
-            get { return completed; }
-            set
-            {
-                new Task(() =>
+            get => completed;
+            set => Task.Factory.StartNew(() =>
                 {
                     label_completedCount.Text = value.ToString();
                     progressBar_completed.Value = value;
                     completed = value;
-                })
-                .RunSynchronously(uiScheduler);
-            }
+                },
+                CancellationToken.None, TaskCreationOptions.None, uiScheduler);
         }
         #endregion
 
@@ -87,12 +84,12 @@ namespace MusicBeePlugin.Windows.Forms
 
         public void SetRemainingTime(TimeSpan remaining)
         {
-            new Task(() =>
+            Task.Factory.StartNew(() =>
             {
                 if (label_remainingTime.IsDisposed) return;
                 label_remainingTime.Text = remaining.ToString();
-            })
-            .RunSynchronously(uiScheduler);
+            },
+            CancellationToken.None, TaskCreationOptions.None, uiScheduler);
         }
         #endregion
 
@@ -103,7 +100,6 @@ namespace MusicBeePlugin.Windows.Forms
 
             string query = string.Join(YomiGetterBase.Separator,
                 song.Artist, song.AlbumArtist, song.TrackTitle, song.Album, song.Composer);
-            string[] options;
 
             // まずユーザー辞書で変換を行う
             foreach (WordKanaPair wkp in Config.Instance.WordKanaCollection)
@@ -120,7 +116,7 @@ namespace MusicBeePlugin.Windows.Forms
             query = TextTranslation.Translate(query);
 
             // 漢字以外を変換対象とさせないため一旦退避する
-            TextTranslation.ChangeOriginToTemporary(ref query, out options);
+            TextTranslation.ChangeOriginToTemporary(ref query, out string[] options);
 
             // 漢字が含まれていればWebAPIでさらに変換する
             bool containsKanji = Regex.IsMatch(query, Config.Instance.MatchesRegExp);
@@ -152,7 +148,7 @@ namespace MusicBeePlugin.Windows.Forms
             SetRemainingTime(TimeSpan.FromSeconds(0));
         }
 
-        private async void Remaining_ShownAsync(object sender, EventArgs e)
+        private async Task Remaining_ShownAsync(object sender, EventArgs e)
         {
             startRemainingUpdating = new Timer(_ =>
                 {

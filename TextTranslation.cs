@@ -25,10 +25,9 @@ namespace MusicBeePlugin
                 char hiragana;
 
                 // 次の文字が濁点、または半濁点の場合は結合する
-                if (i + 1 < sentence.Length &&
-                    (sentence[i + 1] == 'ﾞ' || sentence[i + 1] == 'ﾟ'))
+                if (i + 1 < sentence.Length && (sentence[i + 1] == 'ﾞ' || sentence[i + 1] == 'ﾟ'))
                 {
-                    string halfKana = string.Concat(sentence[i], sentence[i + 1]);
+                    string halfKana = new string(new[] { sentence[i], sentence[i + 1] });
                     hiragana = CorrespondenceTable.GetHiragana(halfKana);
                     if (hiragana != '\0')
                     {
@@ -93,7 +92,7 @@ namespace MusicBeePlugin
         public static void ChangeOriginToTemporary(ref string sentence, out string[] options)
         {
             var outOfKanjis = new Regex(Config.Instance.ReplacesRegExp);
-            var outOptions = new List<string>();
+            var outOptions  = new List<string>();
 
             for (int i = 0; ; ++i)
             {
@@ -250,8 +249,7 @@ namespace MusicBeePlugin
         public char   Katakana { get; }
         public string HalfKana { get; }
 
-        public KanaRelation(char hiragana, char katakana, string halfKana)
-            : this()
+        public KanaRelation(char hiragana, char katakana, string halfKana) : this()
         {
             Hiragana = hiragana;
             Katakana = katakana;

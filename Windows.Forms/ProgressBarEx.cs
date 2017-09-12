@@ -6,7 +6,7 @@ namespace MusicBeePlugin.Windows.Forms
     {
         public new int Value
         {
-            get { return base.Value; }
+            get => base.Value;
             set
             {
                 SuspendLayout();
